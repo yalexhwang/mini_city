@@ -1,0 +1,58 @@
+{% extends 'layout.html' %}
+{% block body %}
+<h2>Registration</h2>
+<hr>
+
+<div class="col-sm-11">
+	<form action="register" method="POST">
+		<div class="form-group">
+			<label for="tag_id" class="control-label">NFC Tag ID</label>
+			<div class="add-later" id="tag_id">
+				<input type="text" class="form-control">
+			</div>
+		</div>
+		<hr>
+		<h4>Add Wristband Holder Information</h4>
+		<div class="form-group">
+			<label for="holder-fname" class="control-label">First Name</label>
+			<div class="add-later" id="holder-fname">
+				<input type="text" class="form-control">
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="holder-lname" class="control-label">Last Name</label>
+			<div class="add-later" id="holder-lname">
+				<input type="text" class="form-control">
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="holder-gender" class="control-label">Gender</label>
+			<div class="add-later" id="holder-gender">
+				<select class="form-control">
+					<option value="0">Female</option>
+					<option value="1">Male</option>
+					<option value="2">Other</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="holder-category" class="control-label">Special Category</label>
+			<div class="add-later" id="holder-category">
+				<div class="checkbox">  
+			    <label>
+			      <input type="checkbox" value="0"> Has children
+			    </label>
+			    <label>
+			      <input type="checkbox" value="1"> Pregnant
+			    </label>
+			    <label>
+			      <input type="checkbox" value="2"> Senior
+			    </label>
+			  </div>
+			 </div>
+		</div>
+
+	</form>
+</div>
+
+{% endblock %}
