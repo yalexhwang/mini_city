@@ -4,11 +4,11 @@
 <hr>
 
 <div class="col-sm-11">
-	<form action="register" method="POST">
+	<form action="/register_submit" method="POST">
 		<div class="form-group">
-			<label for="tag_id" class="control-label">NFC Tag ID</label>
-			<div class="add-later" id="tag_id">
-				<input type="text" class="form-control">
+			<label for="tag" class="control-label">NFC Tag ID</label>
+			<div class="add-later" id="tag">
+				<input type="text" class="form-control" name="tag_id">
 			</div>
 		</div>
 		<hr>
@@ -16,22 +16,22 @@
 		<div class="form-group">
 			<label for="holder-fname" class="control-label">First Name</label>
 			<div class="add-later" id="holder-fname">
-				<input type="text" class="form-control">
+				<input type="text" class="form-control" name="first_name">
 			</div>
 		</div>
 		<div class="form-group">
 			<label for="holder-lname" class="control-label">Last Name</label>
 			<div class="add-later" id="holder-lname">
-				<input type="text" class="form-control">
+				<input type="text" class="form-control" name="last_name">
 			</div>
 		</div>
 		<div class="form-group">
 			<label for="holder-gender" class="control-label">Gender</label>
 			<div class="add-later" id="holder-gender">
-				<select class="form-control">
-					<option value="0">Female</option>
-					<option value="1">Male</option>
-					<option value="2">Other</option>
+				<select class="form-control" name="gender">
+					<option value="1">Female</option>
+					<option value="2">Male</option>
+					<option value="3">Other</option>
 				</select>
 			</div>
 		</div>
@@ -40,18 +40,20 @@
 			<div class="add-later" id="holder-category">
 				<div class="checkbox">  
 			    <label>
-			      <input type="checkbox" value="0"> Has children
+			      <input type="checkbox" value="1" name="category"> Has children
 			    </label>
 			    <label>
-			      <input type="checkbox" value="1"> Pregnant
+			      <input type="checkbox" value="2" name="category"> Pregnant
 			    </label>
 			    <label>
-			      <input type="checkbox" value="2"> Senior
+			      <input type="checkbox" value="3" name="category"> Senior
 			    </label>
 			  </div>
 			 </div>
 		</div>
-
+		<div class="form-group">
+			<button class="btn btn-default" type="submit">Register</button>
+		</div>
 	</form>
 </div>
 
