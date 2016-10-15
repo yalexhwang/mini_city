@@ -1,4 +1,3 @@
-conn = mysql.connect()
 from flask import Flask, render_template, request, redirect, jsonify
 from flaskext.mysql import MySQL
 
