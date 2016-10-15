@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, jsonify, secrets
+from flask import Flask, render_template, request, redirect, jsonify
 from flaskext.mysql import MySQL
 
 app = Flask(__name__) 
@@ -21,7 +21,7 @@ def index():
 @app.route('/register')
 def register():
 	#generate serial number and assign
-	new_tag_id = 
+	return "test"
 	#add to databse
 
 
@@ -51,7 +51,7 @@ def add_holder_submit():
 def tag_log(id):
 	tag_id = id 
 	print tag_id
-	if id = None:
+	if id is None:
 	#if no data, redirect to 'register'
 		return redirect('/register')
 	else:
