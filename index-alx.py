@@ -3,7 +3,7 @@ from flaskext.mysql import MySQL
 
 app = Flask(__name__) 
 mysql = MySQL() 
-app.config['MYSQL_DATABASE_USER'] = 'mini_city'
+app.config['MYSQL_DATABASE_USER'] = 'x'
 app.config['MYSQL_DATABASE_PASSWORD'] = 'x' 
 app.config['MYSQL_DATABASE_DB'] = 'mini_city'
 app.config['MYSQL_DATABASE_HOST'] = '127.0.0.1' 
@@ -15,8 +15,43 @@ cursor = conn.cursor()
 @app.route('/')
 def index():
 	print "index"
-	return 'hey'
+	return render_template('/admin_login.html')
 
+@app.route('/login')
+def login():
+	if request.args.get("message"):
+			return render_template("admin_login.html", 
+					message = "Login Failed"
+				)
+	else:
+		return render_template("admin_login.html")
+
+@app.route('/admin_portal')
+def admin_portal(): 
+	container_query = "SELECT * from containers"
+	cursor.execute(container_query)
+	containers = cursor.fetchall()
+
+	log_query = "SELECT * from logs"
+	cursor.execute(log_query)
+	logs = cursor.fetchall()
+
+	nfc_query = "SELECT * from nfc"
+	cursor.execute(nfc_query)
+	nfcs = cursor.fetchall()
+
+	services_query = "SELECT * from services"
+	cursor.execute(services_query)
+	services = cursor.fetchall()
+
+	users_query = "SELECT * from users"
+	cursor.execute(users_query)
+	users = cursor.fetchall()
+
+	return render_template('admin_portal.html',
+				containers = containers)
+
+		
 #if data returned is empty, register
 @app.route('/register')
 def register():
