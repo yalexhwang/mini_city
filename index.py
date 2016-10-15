@@ -17,6 +17,17 @@ def index():
 	print "index"
 	return 'hey'
 
+@app.route('/admin_portal')
+def index():
+	if seesion.get('admin_id'):
+		return render_template('admin_portal.html',
+			logged_in = [session['admin_id'], session['admin_info']])
+	else:
+		return render_template('admin_login.html')
+
+@app.route('/register', methods=['POST'])
+def register():
+	return render_template('register.html')
 
 if (__name__) == "__main__":
 	app.run(debug=True)
