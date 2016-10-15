@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, jsonify
+from flask import Flask, render_template, request, redirect, jsonify, secrets
 from flaskext.mysql import MySQL
 
 app = Flask(__name__) 
@@ -17,12 +17,20 @@ def index():
 	print "index"
 	return 'hey'
 
+#if data returned is empty, register
 @app.route('/register')
 def register():
-	 return render_template('register.html')
+	#generate serial number and assign
+	new_tag_id = 
+	#add to databse
 
-@app.route('/register_submit', methods=['POST'])
-def register_submit():
+
+@app.route('/add_holder')
+def add_holder():
+	 return render_template('add_holder.html')
+
+@app.route('/add_holder_submit', methods=['POST'])
+def add_holder_submit():
 	tag_id = request.form['tag_id']
 	fname = request.form['first_name']
 	lname = request.form['last_name']
@@ -33,13 +41,23 @@ def register_submit():
 	print lname
 	print gender
 	print category
+	if len(category) == 0:
+		register_query = "INSERT INTO users (first_name, last_name, gender, nfc_id) values ('%s', '%s', '%s', '%s', '%s')" % (fname, lname, gender, tag_id)
+	else: 
+		register_query = "INSERT INTO users (first_name, last_name, gender, special_status, nfc_id) values ('%s', '%s', '%s', '%s', '%s')" % (fname, lname, gender, tag_id)
 	return "works"
 
 @app.route('/tag_log/<id>', methods=['GET'])
 def tag_log(id):
 	tag_id = id 
 	print tag_id
-	return tag_id
+	if id = None:
+	#if no data, redirect to 'register'
+		return redirect('/register')
+	else:
+		return render_template('/tag_log/')
+
+
 
 
 if (__name__) == "__main__":
