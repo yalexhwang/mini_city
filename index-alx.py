@@ -6,7 +6,7 @@ mysql = MySQL()
 app.config['MYSQL_DATABASE_USER'] = 'ghdbteam12'
 app.config['MYSQL_DATABASE_PASSWORD'] = 'S3yVUPXW!a^QG01@1' 
 app.config['MYSQL_DATABASE_DB'] = 'ghdbteam12'
-app.config['MYSQL_DATABASE_HOST'] = 'ghdb.code.goodiehack.com'
+app.config['MYSQL_DATABASE_HOST'] = 'ghdb.goodiehack.com'
 mysql.init_app(app)
 
 conn = mysql.connect()
