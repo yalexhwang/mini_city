@@ -1,14 +1,6 @@
 {% extends 'layout.html' %}
 {% block body %}
 
-<!-- may need to add js file in this header -->
-
-<!-- message module -->
-{% if message: %}
-<div class="alert alert-danger">{{message}}</div>
-{% endif %}
-
-
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
@@ -45,32 +37,65 @@
         <button type="submit" class="btn btn-default">Submit</button>
       </form>
       <ul class="nav navbar-nav navbar-right">
-   
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
 
 <h1>Administration Portal</h1>
-<h3>Database View: (autopopulated title) </h3>
 <hr>
-<h3>Containers</h3>
 
+<h4>NFC Tags</h4>
 <table class="table table-striped">
 	<thead>
-		<th>ID</th>
-		<th>Name</th>
-		<th>Zip Code</th>
+		<th>NFC Tag ID</th>
+		<th>Holder Name</th>
+		<th>Gender</th>
+    <th>Special Status</th>
+    <th>Managed By</th>
 	</thead>
-  {% for container in containers %}
+  {% for row in nfc %}
 	<tr>
-		<td>{{container[0]}}</td>
-		<td>{{container[1]}}</td>
-		<td>{{container[2]}}</td>
+		<td>{{row[1]}}</td>
+		<td>{{row[4]}} {{row[5]}}</td>
+    {% if row[6] == 1: %}
+    <td>Female</td>
+    {% elif row[6] == 2: %}
+    <td>Male</td>
+    {% else: %}
+		<td>Other</td>
+    {% endif %}
+    {% if row[7] == 1: %}
+    <td>Has children</td>
+    {% elif row[7] == 2: %}
+    <td>Pregnant</td>
+    {% elif row[7] == 3: %}
+    <td>Senior</td>
+    {% else: %}
+    <td>N/A</td>
+    {% endif %}
+    <td>Container {{row[2]}}</td>
 	</tr>
 	{% endfor %}
 </table>
 
+<h4>Containers</h4>
+<table class="table table-striped">
+  <thead>
+    <th>Container ID</th>
+    <th>Name</th>
+    <th>Zip Code</th>
+    <th>Total NFC Tags</th>
+  </thead>
+  {% for row in container %}
+  <tr>
+    <td>{{row[0]}}</td>
+    <td>{{row[1]}}</td>
+    <td>{{row[2]}}</td>
+    <td>{{row[3]}}</td>
+  </tr>
+  {% endfor %}
+</table>
 
 
 
