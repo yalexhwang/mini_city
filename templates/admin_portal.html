@@ -279,13 +279,13 @@
     <thead>
         <th>ID</th>
         <th>Name</th>
-        <th>Zip Code</th>
+        <th>Gender</th>
     </thead>
  {% for user in users %}
     <tr>
         <td>{{user[0]}}</td>
-        <td>{{user[1]}}</td>
-        <td>{{user[2]}}</td>
+        <td>{{user[1]}} {{user[2]}}</td>
+        <td>{{user[3]}}</td>
     </tr>
     {% endfor %}
 </table>

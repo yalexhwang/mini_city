@@ -54,10 +54,15 @@ def admin_portal():
 	cursor.execute(log_query)
 	data3 = cursor.fetchall()
 
+	user_query = "SELECT * from users"
+	cursor.execute(user_query)
+	data4 = cursor.fetchall()
+
 	return render_template('admin_portal.html',
-				containers = data1,
+				container = data1,
 				nfcs = data2,
-				log = data3)
+				log = data3,
+				users = data4)
 
 #if data returned is empty, register
 @app.route('/register/<id>')
@@ -96,30 +101,52 @@ def add_info():
 
 @app.route('/add_info_submit', methods=['POST'])
 def add_info_submit():
-	# container = request.form.get('container')
+	tag_query = "SELECT * FROM nfc"
+	cursor.execute(tag_query)
+	tags = cursor.fetchall()
+	num = len(tags)
+	print "tag id:"
+	tag_registered = tags[num-1][0]
+	print tag_registered
+
 	# tag_id = request.form['tag_id']
 	fname = request.form['first_name']
 	lname = request.form['last_name']
 	gender = request.form.get('gender')
-	category = request.form.getlist('category')
-	print tag_id
-	print fname
-	print lname
-	print gender
-	print category
-	if len(category) == 0:
-		register_query = "INSERT INTO users (first_name, last_name, gender, nfc_id) values ('%s', '%s', '%s', '%s', '%s')" % (fname, lname, gender, tag_id)
-	else: 
-		register_query = "INSERT INTO users (first_name, last_name, gender, special_status, nfc_id) values ('%s', '%s', '%s', '%s', '%s')" % (fname, lname, gender, tag_id)
-
+	# category = request.form.getlist('category')
+	# print tag_id
+	# print category
+	# if len(category) == 0:
+	# nfc_query = "INSERT INTO nfc (nfc_tag_id) values ('%s')" % tag_id
+	# cursor.execute(nfc_query)
+	# conn.commit()
+	register_query = "INSERT INTO users (first_name, last_name, gender) values ('%s', '%s', '%s')" % (fname, lname, gender)
+		# register_query = "INSERT INTO users (first_name, last_name, gender, special_status, nfc_id) values ('%s', '%s', '%s', '%s', '%s')" % (fname, lname, gender, tag_id)
 	cursor.execute(register_query)
+	conn.commit()
+
+	user_id_query = "SELECT * FROM users"
+	cursor.execute(user_id_query)
+	users = cursor.fetchall()
+	num2 = len(users)
+	print 'user:'
+	user_registered = users[num2-1][0]
+	print user_registered
+
+	match_query = "UPDATE nfc SET user = '%s' WHERE id = '%s'" % (user_registered, tag_registered)
+	cursor.execute(match_query)
 	conn.commit()
 	return redirect('/admin_portal')
 
 @app.route('/tag_log/<id>', methods=['GET'])
 def tag_log(id):
 	tag_id = id 
-	return redirect('/register/' + id)
+	print tag_id
+	if id is None:
+		return redirect('/register/' + id)
+	else:
+		return render_template('/tag_log/',
+			tag_id = tag_id)
 
 
 if (__name__) == "__main__":
