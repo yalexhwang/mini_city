@@ -96,6 +96,7 @@ def add_info():
 
 @app.route('/add_info_submit', methods=['POST'])
 def add_info_submit():
+	container = request.form.get('container')
 	tag_id = request.form['tag_id']
 	fname = request.form['first_name']
 	lname = request.form['last_name']
@@ -115,12 +116,7 @@ def add_info_submit():
 @app.route('/tag_log/<id>', methods=['GET'])
 def tag_log(id):
 	tag_id = id 
-	print tag_id
-	if id is None:
-		return redirect('/register/' + id)
-	else:
-		return render_template('/tag_log/',
-			tag_id = tag_id)
+	return redirect('/register/' + id)
 
 
 if (__name__) == "__main__":
