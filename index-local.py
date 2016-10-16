@@ -100,17 +100,23 @@ def add_info_submit():
 	fname = request.form['first_name']
 	lname = request.form['last_name']
 	gender = request.form.get('gender')
-	category = request.form.getlist('category')
-	print tag_id
+	# category = request.form.getlist('category')
 	print fname
 	print lname
 	print gender
-	print category
-	if len(category) == 0:
-		register_query = "INSERT INTO users (first_name, last_name, gender, nfc_id) values ('%s', '%s', '%s', '%s', '%s')" % (fname, lname, gender, tag_id)
-	else: 
-		register_query = "INSERT INTO users (first_name, last_name, gender, special_status, nfc_id) values ('%s', '%s', '%s', '%s', '%s')" % (fname, lname, gender, tag_id)
-	return "works"
+	# print category
+	# if len(category) == 0:
+	nfc_query = "INSERT INTO nfc (nfc_tag_id) values ('%s')" % tag_id
+	cursor.execute(nfc_query)
+	conn.commit()
+	register_query = "INSERT INTO users (first_name, last_name, gender) values ('%s', '%s', '%s')" % (fname, lname, gender)
+	# else: 
+	# 	register_query = "INSERT INTO users (first_name, last_name, gender, special_status, nfc_id) values ('%s', '%s', '%s', '%s', '%s')" % (fname, lname, gender, tag_id)
+	cursor.execute(register_query)
+	conn.commit()
+	return jsonify({
+		'test': 1 
+		})
 
 @app.route('/tag_log/<id>', methods=['GET'])
 def tag_log(id):
