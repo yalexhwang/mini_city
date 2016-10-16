@@ -22,9 +22,8 @@ Do you want to add additional information to the tag?
 <button class="btn btn-default" id="openAddInfo">Do it now</button> 
 <button class="btn btn-default" id="doItLater">I'll do it later</button>
 
-
-<div id="addInfoForm">
-	<form action="/add_info_submit" method="POST">
+<div class="col-lg-offset-1 col-lg-10" id="addInfoForm">
+	<form class="form-horizontal" role="form" action="/add_info_submit" method="POST">
 		<div class="form-group">
 			<label for="tag" class="control-label">NFC Tag ID Registered</label>
 			<div class="add-later" id="tag">
@@ -38,9 +37,9 @@ Do you want to add additional information to the tag?
 			<div class="add-later" id="id-container">
 				<select class="form-control" name="container">
 					<option value="n/a">N/A</option>
-<!-- 					{% for row in container: %}
+					{% for row in container: %}
 					<option value="{{row[0]}}">{{row[1]}} ({{row[2]}})</option>
-					{% endfor %} -->
+					{% endfor %}
 				</select>
 			</div>
 		</div>
@@ -90,5 +89,5 @@ Do you want to add additional information to the tag?
 	</form>
 </div>
 {% endif %}
-{% endblock %}
 
+{% endblock %}

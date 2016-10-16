@@ -1,101 +1,511 @@
 {% extends 'layout.html' %}
 {% block body %}
 
-<nav class="navbar navbar-default">
-  <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="#">Brand</a>
-    </div>
+<!-- may need to add js file in this header -->
 
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
+<!-- message module -->
+{% if message: %}
+<div class="alert alert-danger">{{message}}</div>
+{% endif %}
+
+
+
+
       
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">NFC Databases <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="#" id="containers">Containers</a></li>
-            <li><a href="#" id="logs">Logs</a></li>
-            <li><a href="#" id="nfcs">NFCs</a></li>
-            <li><a href="#" id="services">Services</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="#" id="users">Users</a></li>
-          </ul>
-        </li>
-      </ul>
-      <form class="navbar-form navbar-left">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search">
+      <!--main content start-->
+      <section id="main-content">
+          <section class="wrapper">            
+              <!--overview start-->
+        <div class="row">
+        <div class="col-lg-12">
+          <h3 class="page-header"><i class="fa fa-laptop"></i> Dashboard</h3>
+          <ol class="breadcrumb">
+            <li><i class="fa fa-home"></i><a href="index.html">Home</a></li>
+            <li><i class="fa fa-laptop"></i>Dashboard</li>                
+          </ol>
         </div>
-        <button type="submit" class="btn btn-default">Submit</button>
-      </form>
-      <ul class="nav navbar-nav navbar-right">
-      </ul>
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
-</nav>
-
-<h1>Administration Portal</h1>
-<hr>
-
-<h4>NFC Tags</h4>
-<table class="table table-striped">
-	<thead>
-		<th>NFC Tag ID</th>
-		<th>Holder Name</th>
-		<th>Gender</th>
-    <th>Special Status</th>
-    <th>Managed By</th>
-	</thead>
-  {% for row in nfc %}
-	<tr>
-		<td>{{row[1]}}</td>
-		<td>{{row[4]}} {{row[5]}}</td>
-    {% if row[6] == 1: %}
-    <td>Female</td>
-    {% elif row[6] == 2: %}
-    <td>Male</td>
-    {% else: %}
-		<td>Other</td>
-    {% endif %}
-    {% if row[7] == 1: %}
-    <td>Has children</td>
-    {% elif row[7] == 2: %}
-    <td>Pregnant</td>
-    {% elif row[7] == 3: %}
-    <td>Senior</td>
-    {% else: %}
-    <td>N/A</td>
-    {% endif %}
-    <td>Container {{row[2]}}</td>
-	</tr>
-	{% endfor %}
-</table>
-
-<h4>Containers</h4>
-<table class="table table-striped">
-  <thead>
-    <th>Container ID</th>
+      </div>
+              
+            <div class="row">
+        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+          <div class="info-box blue-bg">
+            <i class="fa fa-cloud-download"></i>
+            <div class="count">0</div>
+            <div class="title">Identification</div>           
+          </div><!--/.info-box-->     
+        </div><!--/.col-->
+        
+        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+          <div class="info-box brown-bg">
+            <i class="fa fa-shopping-cart"></i>
+            <div class="count">0</div>
+            <div class="title">Employment</div>            
+          </div><!--/.info-box-->     
+        </div><!--/.col-->  
+        
+        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+          <div class="info-box dark-bg">
+            <i class="fa fa-thumbs-o-up"></i>
+            <div class="count">0</div>
+            <div class="title">Physical Needs</div>            
+          </div><!--/.info-box-->     
+        </div><!--/.col-->
+        
+        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+          <div class="info-box green-bg">
+            <i class="fa fa-cubes"></i>
+            <div class="count">0</div>
+            <div class="title">Wellness</div>            
+          </div><!--/.info-box-->     
+        </div><!--/.col-->
+        
+      </div><!--/.row-->
+    
+      
+           <div class="row">
+        <div class="col-lg-9 col-md-12">
+          
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h2><i class="fa fa-map-marker red"></i><strong>Countries</strong></h2>
+              <div class="panel-actions">
+                <a href="index.html#" class="btn-setting"><i class="fa fa-rotate-right"></i></a>
+                <a href="index.html#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
+                <a href="index.html#" class="btn-close"><i class="fa fa-times"></i></a>
+              </div>  
+            </div>
+            <div class="panel-body-map">
+              <div id="map" style="height:380px;"></div>  
+            </div>
+  
+          </div>
+        </div>
+              <div class="col-md-3">
+              <!-- List starts -->
+        <ul class="today-datas">
+                <!-- List #1 -->
+        <li>
+                  <!-- Graph -->
+                  <div><span id="todayspark1" class="spark"></span></div>
+                  <!-- Text -->
+                  <div class="datas-text">0 visitors/day</div>
+                </li>
+                <li>
+                  <div><span id="todayspark2" class="spark"></span></div>
+                  <div class="datas-text">0 New Users</div>
+                </li>
+                <li>
+                  <div><span id="todayspark3" class="spark"></span></div>
+                  <div class="datas-text">0% Usage Rate</div>
+                </li>
+                <li>
+                  <div><span id="todayspark4" class="spark"></span></div>
+                  <div class="datas-text">$0 Donations</div>
+                </li> 
+                <li>
+                  <div><span id="todayspark5" class="spark"></span></div>
+                  <div class="datas-text">0 container visitors every Month</div>
+                </li>                                                                                                              
+              </ul>
+              </div>
+              
+       
+           </div>  
+            
+      
+      <!-- Today status end -->
+      
+              
+        
+      <div class="row">
+                
+        <div class="col-lg-9 col-md-12">  
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h2><i class="fa fa-flag-o red"></i><strong>Containers</strong></h2>
+              <div class="panel-actions">
+                <a href="index.html#" class="btn-setting"><i class="fa fa-rotate-right"></i></a>
+                <a href="index.html#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
+                <a href="index.html#" class="btn-close"><i class="fa fa-times"></i></a>
+              </div>
+            </div>
+            <div class="panel-body">
+              <table class="table bootstrap-datatable countries">
+                <thead>
+    <th>ID</th>
     <th>Name</th>
     <th>Zip Code</th>
-    <th>Total NFC Tags</th>
   </thead>
-  {% for row in container %}
+  {% for container in containers %}
   <tr>
-    <td>{{row[0]}}</td>
-    <td>{{row[1]}}</td>
-    <td>{{row[2]}}</td>
-    <td>{{row[3]}}</td>
+    <td>{{container[0]}}</td>
+    <td>{{container[1]}}</td>
+    <td>{{container[2]}}</td>
   </tr>
   {% endfor %}
+              </table>
+            </div>
+  
+          </div> 
+        </div>
+        </div> 
+
+          <div class="row">
+                
+        <div class="col-lg-9 col-md-12">  
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h2><i class="fa fa-flag-o red"></i><strong>Logs</strong></h2>
+              <div class="panel-actions">
+                <a href="index.html#" class="btn-setting"><i class="fa fa-rotate-right"></i></a>
+                <a href="index.html#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
+                <a href="index.html#" class="btn-close"><i class="fa fa-times"></i></a>
+              </div>
+            </div>
+            <div class="panel-body">
+              <table class="table bootstrap-datatable countries">
+                
+<table class="table bootstrap-datatable countries">
+    <thead>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Zip Code</th>
+    </thead>
+ {% for log in logs %}
+    <tr>
+        <td>{{log[0]}}</td>
+        <td>{{log[1]}}</td>
+        <td>{{log[2]}}</td>
+    </tr>
+    {% endfor %}
 </table>
+            </div>
+            </div>
+        </div> 
+        </div>
+
+<div class="row">
+                
+        <div class="col-lg-9 col-md-12">  
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h2><i class="fa fa-flag-o red"></i><strong>NFC</strong></h2>
+              <div class="panel-actions">
+                <a href="index.html#" class="btn-setting"><i class="fa fa-rotate-right"></i></a>
+                <a href="index.html#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
+                <a href="index.html#" class="btn-close"><i class="fa fa-times"></i></a>
+              </div>
+            </div>
+            <div class="panel-body">
+              <table class="table bootstrap-datatable countries">
+                
+<table class="table bootstrap-datatable countries">
+    <thead>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Zip Code</th>
+    </thead>
+ {% for nfc in nfcs %}
+    <tr>
+        <td>{{nfc[0]}}</td>
+        <td>{{nfc[1]}}</td>
+        <td>{{nfc[2]}}</td>
+    </tr>
+    {% endfor %}
+</table>
+            </div>
+            </div>
+        </div> 
+        </div>
+
+
+<div class="row">
+                
+        <div class="col-lg-9 col-md-12">  
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h2><i class="fa fa-flag-o red"></i><strong>Services</strong></h2>
+              <div class="panel-actions">
+                <a href="index.html#" class="btn-setting"><i class="fa fa-rotate-right"></i></a>
+                <a href="index.html#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
+                <a href="index.html#" class="btn-close"><i class="fa fa-times"></i></a>
+              </div>
+            </div>
+            <div class="panel-body">
+              <table class="table bootstrap-datatable countries">
+                
+<table class="table bootstrap-datatable countries">
+    <thead>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Zip Code</th>
+    </thead>
+ {% for service in services %}
+    <tr>
+        <td>{{service[0]}}</td>
+        <td>{{service[1]}}</td>
+        <td>{{service[2]}}</td>
+    </tr>
+    {% endfor %}
+</table>
+            </div>
+            </div>
+        </div> 
+        </div>
+
+
+<div class="row">
+                
+        <div class="col-lg-9 col-md-12">  
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h2><i class="fa fa-flag-o red"></i><strong>Users</strong></h2>
+              <div class="panel-actions">
+                <a href="index.html#" class="btn-setting"><i class="fa fa-rotate-right"></i></a>
+                <a href="index.html#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
+                <a href="index.html#" class="btn-close"><i class="fa fa-times"></i></a>
+              </div>
+            </div>
+            <div class="panel-body">
+              <table class="table bootstrap-datatable countries">
+                
+<table class="table bootstrap-datatable countries">
+    <thead>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Zip Code</th>
+    </thead>
+ {% for user in users %}
+    <tr>
+        <td>{{user[0]}}</td>
+        <td>{{user[1]}}</td>
+        <td>{{user[2]}}</td>
+    </tr>
+    {% endfor %}
+</table>
+            </div>
+            </div>
+        </div> 
+      
+
+          </div> 
+
+
+        </div><!--/col-->
+
+        <div class="col-md-3">
+          
+          <div class="social-box facebook">
+            <i class="fa fa-facebook"></i>
+            <ul>
+              <li>
+                <strong>0k</strong>
+                <span>friends</span>
+              </li>
+              <li>
+                <strong>0</strong>
+                <span>feeds</span>
+              </li>
+            </ul>
+          </div><!--/social-box-->
+        </div>
+        <div class="col-md-3">
+          
+          <div class="social-box google-plus">
+            <i class="fa fa-google-plus"></i>
+            <ul>
+              <li>
+                <strong>0</strong>
+                <span>followers</span>
+              </li>
+              <li>
+                <strong>0</strong>
+                <span>circles</span>
+              </li>
+            </ul>
+          </div><!--/social-box-->      
+          
+        </div><!--/col-->
+        <div class="col-md-3">
+          
+          <div class="social-box twitter">
+            <i class="fa fa-twitter"></i>
+            <ul>
+              <li>
+                <strong>0k</strong>
+                <span>followers</span>
+              </li>
+              <li>
+                <strong>0</strong>
+                <span>tweets</span>
+              </li>
+            </ul>
+          </div><!--/social-box-->      
+          
+        </div><!--/col-->
+        
+              </div>
+
+                    
+                   
+                <!-- statics end -->
+              
+
+              </div><br><br>
+    
+    <div class="row">
+      <div class="col-md-6 portlets">
+            <div class="panel panel-default">
+        <div class="panel-heading">
+                  <h2><strong>Calendar</strong></h2>
+        <div class="panel-actions">
+                    <a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a> 
+                    <a href="#" class="wclose"><i class="fa fa-times"></i></a>
+                </div>  
+                 
+                </div><br><br><br>
+                <div class="panel-body">
+                  <!-- Widget content -->
+                  
+                    <!-- Below line produces calendar. I am using FullCalendar plugin. -->
+                    <div id="calendar"></div>
+                  
+                </div>
+              </div> 
+               
+            </div>
+      
+         <div class="col-md-6 portlets">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <div class="pull-left">Quick Post</div>
+                  <div class="widget-icons pull-right">
+                    <a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a> 
+                    <a href="#" class="wclose"><i class="fa fa-times"></i></a>
+                  </div>  
+                  <div class="clearfix"></div>
+                </div>
+                <div class="panel-body">
+                  <div class="padd">
+                    
+                      <div class="form quick-post">
+                                      <!-- Edit profile form (not working)-->
+                                      <form class="form-horizontal">
+                                          <!-- Title -->
+                                          <div class="form-group">
+                                            <label class="control-label col-lg-2" for="title">Title</label>
+                                            <div class="col-lg-10"> 
+                                              <input type="text" class="form-control" id="title">
+                                            </div>
+                                          </div>   
+                                          <!-- Content -->
+                                          <div class="form-group">
+                                            <label class="control-label col-lg-2" for="content">Content</label>
+                                            <div class="col-lg-10">
+                                              <textarea class="form-control" id="content"></textarea>
+                                            </div>
+                                          </div>                           
+                                          <!-- Cateogry -->
+                                          <div class="form-group">
+                                            <label class="control-label col-lg-2">Category</label>
+                                            <div class="col-lg-10">                               
+                                                <select class="form-control">
+                                                  <option value="">- Choose Cateogry -</option>
+                                                  <option value="1">General</option>
+                                                  <option value="2">News</option>
+                                                  <option value="3">Media</option>
+                                                  <option value="4">Funny</option>
+                                                </select>  
+                                            </div>
+                                          </div>              
+                                          <!-- Tags -->
+                                          <div class="form-group">
+                                            <label class="control-label col-lg-2" for="tags">Tags</label>
+                                            <div class="col-lg-10">
+                                              <input type="text" class="form-control" id="tags">
+                                            </div>
+                                          </div>
+                                          
+                                          <!-- Buttons -->
+                                          <div class="form-group">
+                                             <!-- Buttons -->
+                       <div class="col-lg-offset-2 col-lg-9">
+                        <button type="submit" class="btn btn-primary">Publish</button>
+                        <button type="submit" class="btn btn-danger">Save Draft</button>
+                        <button type="reset" class="btn btn-default">Reset</button>
+                       </div>
+                                          </div>
+                                      </form>
+                                    </div>
+                  
+
+                  </div>
+                  <div class="widget-foot">
+                    <!-- Footer goes here -->
+                  </div>
+                </div>
+              </div>
+              
+            </div>
+                        
+          </div> 
+              <!-- project team & activity end -->
+
+          </section>
+      </section>
+      <!--main content end-->
+  </section>
+  <!-- container section start -->
+
+  <script>
+
+      //knob
+      $(function() {
+        $(".knob").knob({
+          'draw' : function () { 
+            $(this.i).val(this.cv + '%')
+          }
+        })
+      });
+
+      //carousel
+      $(document).ready(function() {
+          $("#owl-slider").owlCarousel({
+              navigation : true,
+              slideSpeed : 300,
+              paginationSpeed : 400,
+              singleItem : true
+
+          });
+      });
+
+      //custom select box
+
+      $(function(){
+          $('select.styled').customSelect();
+      });
+    
+    /* ---------- Map ---------- */
+  $(function(){
+    $('#map').vectorMap({
+      map: 'world_mill_en',
+      series: {
+        regions: [{
+          values: gdpData,
+          scale: ['#000', '#000'],
+          normalizeFunction: 'polynomial'
+        }]
+      },
+    backgroundColor: '#eef3f7',
+      onLabelShow: function(e, el, code){
+        el.html(el.html()+' (GDP - '+gdpData[code]+')');
+      }
+    });
+  });
+
+
+
+  </script>
 
 
 
