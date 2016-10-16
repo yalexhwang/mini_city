@@ -132,23 +132,25 @@
             <div class="panel-body">
               <table class="table bootstrap-datatable countries">
                 <thead>
-    <th>ID</th>
-    <th>Name</th>
-    <th>Zip Code</th>
-  </thead>
-  {% for container in containers %}
-  <tr>
-    <td>{{container[0]}}</td>
-    <td>{{container[1]}}</td>
-    <td>{{container[2]}}</td>
-  </tr>
-  {% endfor %}
-              </table>
-            </div>
-  
-          </div> 
-        </div>
-        </div> 
+							    <th>ID</th>
+							    <th>Name</th>
+							    <th>Zip Code</th>
+							    <th>NFC Tags Registered</th>
+							  </thead>
+							  {% for container in containers %}
+							  <tr>
+							    <td>{{container[0]}}</td>
+							    <td>{{container[1]}}</td>
+							    <td>{{container[2]}}</td>
+							    <td>{{container[3]}}</td>
+							  </tr>
+							  {% endfor %}
+							              </table>
+							            </div>
+							  
+							          </div> 
+							        </div>
+							        </div> 
 
           <div class="row">
                 
@@ -201,15 +203,19 @@
                 
 <table class="table bootstrap-datatable countries">
     <thead>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Zip Code</th>
+        <th>NFC Tag ID</th>
+        <th>Container</th>
+        <th>Holder Name</th>
+        <th>Gender</th>
+        <th>Special Status</th>
     </thead>
- {% for nfc in nfcs %}
+ 		{% for nfc in nfcs %}
     <tr>
-        <td>{{nfc[0]}}</td>
-        <td>{{nfc[1]}}</td>
         <td>{{nfc[2]}}</td>
+        <td>{{nfc[3]}}</td>
+        <td>{{nfc[4]}} {{nfc[5]}}</td>
+        <td>{{nfc[6]}}</td>
+        <td>{{nfc[7]}}</td>
     </tr>
     {% endfor %}
 </table>

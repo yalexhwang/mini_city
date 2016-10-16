@@ -55,8 +55,8 @@ def admin_portal():
 	data3 = cursor.fetchall()
 
 	return render_template('admin_portal.html',
-				container = data1,
-				nfc = data2,
+				containers = data1,
+				nfcs = data2,
 				log = data3)
 
 #if data returned is empty, register
