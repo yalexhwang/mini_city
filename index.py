@@ -11,79 +11,91 @@ mysql.init_app(app)
 
 conn = mysql.connect()
 cursor = conn.cursor()
+app.secret_key = 'ALVAF34591042%&@lkjfkladfadfdaf'
 
 @app.route('/')
 def index():
-	print "index"
-	return render_template('/admin_login.html')
+	return redirect('/admin_login')
 
-@app.route('/login')
+@app.route('/admin_login')
 def login():
-	if session.get("admin_id"):
-			return render_template("admin_login.html", 
-					admin_id = admin
-				)
+	if session.get("admin"):
+			return redirect('/admin_portal')
 	else:
 		return render_template("admin_login.html")
 
-@app.route('/login_submit')
+@app.route('/login_submit', methods=['POST'])
 def login_submit():
 	username = request.form['username']
 	password = request.form['password']
-	print username
-	print password
 	login_query = "SELECT * FROM admin WHERE admin_name = '%s' and password = '%s'" % (username, password)
 	cursor.execute(login_query)
 	admin = cursor.fetchone()
 	if admin is None:
-		return redirect('/login')
+		return render_template('admin_login.html',
+			message = "Please try again.")
 	else:
-		session['admin'] = admin[0]
-		return render_template('/admin_portal.html',
-			admin = admin[0])
+		session['admin'] = admin
+		return redirect('/admin_portal')
 
 @app.route('/admin_portal')
 def admin_portal(): 
-	container_query = "SELECT * from containers"
+	#if method is get, redirect to admin_login
+	container_query = "SELECT c.*, count(nfc.id) FROM containers as c INNER JOIN nfc ON nfc.container = c.id GROUP BY c.id"
 	cursor.execute(container_query)
-	containers = cursor.fetchall()
+	data1 = cursor.fetchall()
+
+	nfc_user_query = "SELECT nfc.id, nfc.nfc_tag_id, nfc.container, nfc.created_at, users.first_name, users.last_name, users.gender, users.special_status FROM nfc INNER JOIN users ON nfc.user = users.id"
+	cursor.execute(nfc_user_query)
+	data2 = cursor.fetchall()
+	print data2
 
 	log_query = "SELECT * from logs"
 	cursor.execute(log_query)
-	logs = cursor.fetchall()
-
-	nfc_query = "SELECT * from nfc"
-	cursor.execute(nfc_query)
-	nfcs = cursor.fetchall()
-
-	services_query = "SELECT * from services"
-	cursor.execute(services_query)
-	services = cursor.fetchall()
-
-	users_query = "SELECT * from users"
-	cursor.execute(users_query)
-	users = cursor.fetchall()
+	data3 = cursor.fetchall()
 
 	return render_template('admin_portal.html',
-				containers = containers)
+				container = data1,
+				nfc = data2,
+				log = data3)
 
-		
 #if data returned is empty, register
 @app.route('/register/<id>')
 def register(id):
-	print id
-	register_query = "INSERT INTO nfc (nfc_id) values ('%s')" % id
-	cursor.execute(register_query)
-	conn.commit()
-	return id
+	total_tags_query = "SELECT count(id) FROM nfc"
+	cursor.execute(total_tags_query)
+	total_tags = cursor.fetchone()[0]
+	print "total_tags: %s" % total_tags
+
+	container_query = "SELECT * FROM containers"
+	cursor.execute(container_query)
+	container = cursor.fetchall()
+	print container
+
+	duplicate_query = "SELECT id, nfc_tag_id FROM nfc WHERE nfc_tag_id = '%s'" % id
+	cursor.execute(duplicate_query)
+	duplicate = cursor.fetchone()
+	print duplicate
+	if duplicate is None:
+		register_query = "INSERT INTO nfc (nfc_tag_id) values ('%s')" % id
+		cursor.execute(register_query)
+		conn.commit()
+		return render_template('register.html',
+			tag_id = id,
+			total_tags = total_tags,
+			container = container)
+	else: 
+		return render_template('register.html',
+			tag_id = id,
+			message = "This ID has previously been registered. Please check and try again.")
 
 
-@app.route('/add_holder')
-def add_holder():
-	 return render_template('add_holder.html')
+@app.route('/add_info')
+def add_info():
+	 return render_template('add_info.html')
 
-@app.route('/add_holder_submit', methods=['POST'])
-def add_holder_submit():
+@app.route('/add_info_submit', methods=['POST'])
+def add_info_submit():
 	tag_id = request.form['tag_id']
 	fname = request.form['first_name']
 	lname = request.form['last_name']
@@ -105,12 +117,10 @@ def tag_log(id):
 	tag_id = id 
 	print tag_id
 	if id is None:
-	#if no data, redirect to 'register'
-		return redirect('/register')
+		return redirect('/register/' + id)
 	else:
-		return render_template('/tag_log/')
-
-
+		return render_template('/tag_log/',
+			tag_id = tag_id)
 
 
 if (__name__) == "__main__":

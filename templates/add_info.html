@@ -4,14 +4,26 @@
 <hr>
 
 <div class="col-sm-11">
-	<form action="/add_holder_submit" method="POST">
+	<form action="/add_info_submit" method="POST">
 		<div class="form-group">
-			<label for="tag" class="control-label">NFC Tag ID</label>
+			<label for="tag" class="control-label">NFC Tag ID Registered</label>
 			<div class="add-later" id="tag">
-				<input type="text" class="form-control" name="tag_id">
+				<input type="text" class="form-control" name="tag_id" placeholder="{{tag_id}}" value="{{tag_id}}" disabled>
 			</div>
 		</div>
 		<hr>
+		<h4>Add Container Information</h4>
+		<div class="form-group">
+			<label for="id-container" class="control-label">Container</label>
+			<div class="add-later" id="id-container">
+				<select class="form-control" name="container">
+					<option value="n/a">N/A</option>
+					{% for row in container: %}
+					<option value="{{row[0]}}">{{row[1]}} ({{row[2]}})</option>
+					{% endfor %}
+				</select>
+			</div>
+		</div>
 		<h4>Add Wristband Holder Information</h4>
 		<div class="form-group">
 			<label for="holder-fname" class="control-label">First Name</label>
@@ -53,6 +65,7 @@
 		</div>
 		<div class="form-group">
 			<button class="btn btn-default" type="submit">Register</button>
+			<button class="btn btn-default" type="button">Cancel</button>
 		</div>
 	</form>
 </div>

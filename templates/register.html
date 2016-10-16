@@ -1,17 +1,49 @@
 {% extends 'layout.html' %}
 {% block body %}
+
+<header class="panel-heading col-lg-offset-1 col-lg-10">
 <h2>Registration</h2>
+</header>
 <hr>
 
-<div class="col-sm-11">
-	<form action="/register_submit" method="POST">
+{% if message: %}
+<div class="alert alert-warning">
+	{{tag_id}}: {{message}}
+</div>
+{% else: %}
+
+<h2><small>NFC Tag ID</small>
+<br/>{{tag_id}}<br/>
+Registered</h2>
+
+<p>Currently Registered NFC Tags: {{total_tags}}</p>
+Do you want to add additional information to the tag? 
+(You can do it at later time, too).
+<button class="btn btn-default" id="openAddInfo">Do it now</button> 
+<button class="btn btn-default" id="doItLater">I'll do it later</button>
+
+
+<div id="addInfoForm">
+	<form action="/add_info_submit" method="POST">
 		<div class="form-group">
-			<label for="tag" class="control-label">NFC Tag ID</label>
+			<label for="tag" class="control-label">NFC Tag ID Registered</label>
 			<div class="add-later" id="tag">
-				<input type="text" class="form-control" name="tag_id">
+				<input type="text" class="form-control" name="tag_id" placeholder="{{tag_id}}" value="{{tag_id}}" disabled>
 			</div>
 		</div>
 		<hr>
+		<h4>Add Container Information</h4>
+		<div class="form-group">
+			<label for="id-container" class="control-label">Container</label>
+			<div class="add-later" id="id-container">
+				<select class="form-control" name="container">
+					<option value="n/a">N/A</option>
+<!-- 					{% for row in container: %}
+					<option value="{{row[0]}}">{{row[1]}} ({{row[2]}})</option>
+					{% endfor %} -->
+				</select>
+			</div>
+		</div>
 		<h4>Add Wristband Holder Information</h4>
 		<div class="form-group">
 			<label for="holder-fname" class="control-label">First Name</label>
@@ -53,8 +85,10 @@
 		</div>
 		<div class="form-group">
 			<button class="btn btn-default" type="submit">Register</button>
+			<button class="btn btn-default" type="button">Cancel</button>
 		</div>
 	</form>
 </div>
-
+{% endif %}
 {% endblock %}
+

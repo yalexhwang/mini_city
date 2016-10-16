@@ -40,6 +40,7 @@ def login_submit():
 
 @app.route('/admin_portal')
 def admin_portal(): 
+	#if method is get, redirect to admin_login
 	container_query = "SELECT c.*, count(nfc.id) FROM containers as c INNER JOIN nfc ON nfc.container = c.id GROUP BY c.id"
 	cursor.execute(container_query)
 	data1 = cursor.fetchall()
@@ -58,23 +59,43 @@ def admin_portal():
 				nfc = data2,
 				log = data3)
 
-		
 #if data returned is empty, register
 @app.route('/register/<id>')
 def register(id):
-	print id
-	register_query = "INSERT INTO nfc (nfc_id) values ('%s')" % id
-	cursor.execute(register_query)
-	conn.commit()
-	return id
+	total_tags_query = "SELECT count(id) FROM nfc"
+	cursor.execute(total_tags_query)
+	total_tags = cursor.fetchone()[0]
+	print "total_tags: %s" % total_tags
+
+	container_query = "SELECT * FROM containers"
+	cursor.execute(container_query)
+	container = cursor.fetchall()
+	print container
+
+	duplicate_query = "SELECT id, nfc_tag_id FROM nfc WHERE nfc_tag_id = '%s'" % id
+	cursor.execute(duplicate_query)
+	duplicate = cursor.fetchone()
+	print duplicate
+	if duplicate is None:
+		register_query = "INSERT INTO nfc (nfc_tag_id) values ('%s')" % id
+		cursor.execute(register_query)
+		conn.commit()
+		return render_template('register.html',
+			tag_id = id,
+			total_tags = total_tags,
+			container = container)
+	else: 
+		return render_template('register.html',
+			tag_id = id,
+			message = "This ID has previously been registered. Please check and try again.")
 
 
-@app.route('/add_holder')
-def add_holder():
-	 return render_template('add_holder.html')
+@app.route('/add_info')
+def add_info():
+	 return render_template('add_info.html')
 
-@app.route('/add_holder_submit', methods=['POST'])
-def add_holder_submit():
+@app.route('/add_info_submit', methods=['POST'])
+def add_info_submit():
 	tag_id = request.form['tag_id']
 	fname = request.form['first_name']
 	lname = request.form['last_name']
@@ -96,10 +117,10 @@ def tag_log(id):
 	tag_id = id 
 	print tag_id
 	if id is None:
-	#if no data, redirect to 'register'
-		return redirect('/register')
+		return redirect('/register/' + id)
 	else:
-		return render_template('/tag_log/')
+		return render_template('/tag_log/',
+			tag_id = tag_id)
 
 
 if (__name__) == "__main__":
