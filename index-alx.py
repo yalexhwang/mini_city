@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, jsonify
+from flask import Flask, render_template, request, redirect, jsonify, session
 from flaskext.mysql import MySQL
 
 app = Flask(__name__) 
@@ -19,14 +19,29 @@ def index():
 
 @app.route('/login')
 def login():
-	if request.args.get("message"):
+	if session.get("admin_id"):
 			return render_template("admin_login.html", 
-					message = "Login Failed"
+					admin_id = admin
 				)
 	else:
 		return render_template("admin_login.html")
 
-@app.route('/')
+@app.route('/login_submit')
+def login_submit():
+	username = request.form['username']
+	password = request.form['password']
+	print username
+	print password
+	login_query = "SELECT * FROM admin WHERE admin_name = '%s' and password = '%s'" % (username, password)
+	cursor.execute(login_query)
+	admin = cursor.fetchone()
+	if admin is None:
+		return redirect('/login')
+	else:
+		session['admin'] = admin[0]
+		return render_template('/admin_portal.html',
+			admin = admin[0])
+
 @app.route('/admin_portal')
 def admin_portal(): 
 	container_query = "SELECT * from containers"
@@ -54,11 +69,13 @@ def admin_portal():
 
 		
 #if data returned is empty, register
-@app.route('/register')
-def register():
-	#generate serial number and assign
-	return "test"
-	#add to databse
+@app.route('/register/<id>')
+def register(id):
+	print id
+	register_query = "INSERT INTO nfc (nfc_id) values ('%s')" % id
+	cursor.execute(register_query)
+	conn.commit()
+	return id
 
 
 @app.route('/add_holder')
