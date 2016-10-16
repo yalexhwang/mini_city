@@ -111,7 +111,10 @@ def add_info_submit():
 		register_query = "INSERT INTO users (first_name, last_name, gender, nfc_id) values ('%s', '%s', '%s', '%s', '%s')" % (fname, lname, gender, tag_id)
 	else: 
 		register_query = "INSERT INTO users (first_name, last_name, gender, special_status, nfc_id) values ('%s', '%s', '%s', '%s', '%s')" % (fname, lname, gender, tag_id)
-	return "works"
+
+	cursor.execute(register_query)
+	conn.commit()
+	return redirect('/admin_portal')
 
 @app.route('/tag_log/<id>', methods=['GET'])
 def tag_log(id):
